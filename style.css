@@ -1,0 +1,81 @@
+*{
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+body{
+    height: 100vh;
+    background-color: #d9dde3;
+}
+header{
+    display: flex;
+    position: fixed;
+    width: 100vw;
+    height: 60px;
+    justify-content: space-between;
+    background-color: #ffffff;
+}
+.links-header{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 37px;
+    font-size: 19px;
+}
+.feature{
+    font-size: 19px;
+    font-weight: bold;
+    
+}
+.logo-header{
+    height: 40px;
+    width: auto;
+    margin-left: 10px;
+    display: flex;
+    margin-top: auto;
+    margin-bottom: auto;
+}
+.image-button-menu-tags{
+    font-size: 30px;
+    margin-right: 10px;
+    display: flex;
+    margin-top: auto;
+    margin-bottom: auto;
+}
+
+
+/* Sidebar */
+.sidebar {
+  position: fixed;
+  left: 0;
+  top: 60px; /* altura do header */
+  width: 260px;
+  height: calc(100vh - 60px);
+  background: #1F2937;
+  padding: 20px;
+  transition: transform 0.3s ease;
+}
+
+/* Estado fechado */
+.sidebar.closed {
+  transform: translateX(-100%);
+}
+
+/* Botão */
+.menu-btn {
+  background: none;
+  border: none;
+  cursor: pointer;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+/* Os 3 tracinhos */
+.menu-btn span {
+  width: 28px;
+  height: 3px;
+  background: white;
+  border-radius: 2px;
+  transition: 0.3s;
+}
