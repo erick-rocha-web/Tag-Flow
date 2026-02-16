@@ -23,7 +23,8 @@ body {
     justify-content: space-between;
     padding: 0 18px;
     background: #ffffff;
-    border-bottom: 1px solid #E5E7EB;
+    border-bottom: 1px solid #2563EB;
+    border-top: 1px solid #2563EB;
 }
 
 .topbar-left {
@@ -96,7 +97,7 @@ body {
     top: 70px;
     height: calc(100vh - 70px);
     background: #1F2937;
-    border-right: 1px solid #E5E7EB;
+    border-right: 1px solid #2563EB;
     padding: 16px;
     transition: transform 0.35s ease;
 }
@@ -112,7 +113,7 @@ body {
 
 .sidebar-line {
     border: none;
-    border-top: 1px solid #E5E7EB;
+    border-top: 1px solid #2563EB;
     margin-bottom: 12px;
     width: 304px;
     margin-left: -20px;
