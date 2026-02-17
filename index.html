@@ -41,6 +41,7 @@
 
             <div class="menu-content">
 
+                <!-- ESTRUTURA -->
                 <details open>
                     <summary>📁 Estrutura</summary>
                     <ul>
@@ -55,9 +56,25 @@
                         <li onclick="loadTag('article')">Tag &lt;article&gt;</li>
                         <li onclick="loadTag('aside')">Tag &lt;aside&gt;</li>
                         <li onclick="loadTag('footer')">Tag &lt;footer&gt;</li>
+                        <li onclick="loadTag('div')">Tag &lt;div&gt;</li>
                     </ul>
                 </details>
 
+                <!-- HEAD / METADADOS -->
+                <details>
+                    <summary>🧠 Head / Metadados</summary>
+                    <ul>
+                        <li onclick="loadTag('title')">Tag &lt;title&gt;</li>
+                        <li onclick="loadTag('meta')">Tag &lt;meta&gt;</li>
+                        <li onclick="loadTag('link')">Tag &lt;link&gt;</li>
+                        <li onclick="loadTag('base')">Tag &lt;base&gt;</li>
+                        <li onclick="loadTag('style')">Tag &lt;style&gt;</li>
+                        <li onclick="loadTag('script')">Tag &lt;script&gt;</li>
+                        <li onclick="loadTag('noscript')">Tag &lt;noscript&gt;</li>
+                    </ul>
+                </details>
+
+                <!-- TEXTO -->
                 <details>
                     <summary>📝 Texto</summary>
                     <ul>
@@ -70,40 +87,94 @@
                         <li onclick="loadTag('hr')">Tag &lt;hr&gt;</li>
                         <li onclick="loadTag('code')">Tag &lt;code&gt;</li>
                         <li onclick="loadTag('pre')">Tag &lt;pre&gt;</li>
+
+                        <li onclick="loadTag('small')">Tag &lt;small&gt;</li>
+                        <li onclick="loadTag('mark')">Tag &lt;mark&gt;</li>
+                        <li onclick="loadTag('b')">Tag &lt;b&gt;</li>
+                        <li onclick="loadTag('i')">Tag &lt;i&gt;</li>
+                        <li onclick="loadTag('u')">Tag &lt;u&gt;</li>
+                        <li onclick="loadTag('s')">Tag &lt;s&gt;</li>
+                        <li onclick="loadTag('sub')">Tag &lt;sub&gt;</li>
+                        <li onclick="loadTag('sup')">Tag &lt;sup&gt;</li>
+                        <li onclick="loadTag('abbr')">Tag &lt;abbr&gt;</li>
+                        <li onclick="loadTag('cite')">Tag &lt;cite&gt;</li>
+                        <li onclick="loadTag('q')">Tag &lt;q&gt;</li>
+                        <li onclick="loadTag('blockquote')">Tag &lt;blockquote&gt;</li>
+                        <li onclick="loadTag('time')">Tag &lt;time&gt;</li>
+                        <li onclick="loadTag('data')">Tag &lt;data&gt;</li>
+                        <li onclick="loadTag('kbd')">Tag &lt;kbd&gt;</li>
+                        <li onclick="loadTag('samp')">Tag &lt;samp&gt;</li>
+                        <li onclick="loadTag('var')">Tag &lt;var&gt;</li>
+                        <li onclick="loadTag('wbr')">Tag &lt;wbr&gt;</li>
+                        <li onclick="loadTag('bdi')">Tag &lt;bdi&gt;</li>
+                        <li onclick="loadTag('bdo')">Tag &lt;bdo&gt;</li>
+                        <li onclick="loadTag('dfn')">Tag &lt;dfn&gt;</li>
+                        <li onclick="loadTag('del')">Tag &lt;del&gt;</li>
+                        <li onclick="loadTag('ins')">Tag &lt;ins&gt;</li>
                     </ul>
                 </details>
 
+                <!-- LINKS E MÍDIA -->
                 <details>
                     <summary>🔗 Links e Mídia</summary>
                     <ul>
                         <li onclick="loadTag('a')">Tag &lt;a&gt; (link)</li>
                         <li onclick="loadTag('img')">Tag &lt;img&gt; (imagem)</li>
+                        <li onclick="loadTag('picture')">Tag &lt;picture&gt;</li>
+                        <li onclick="loadTag('source')">Tag &lt;source&gt;</li>
+                        <li onclick="loadTag('map')">Tag &lt;map&gt;</li>
+                        <li onclick="loadTag('area')">Tag &lt;area&gt;</li>
+
                         <li onclick="loadTag('video')">Tag &lt;video&gt;</li>
                         <li onclick="loadTag('audio')">Tag &lt;audio&gt;</li>
+                        <li onclick="loadTag('track')">Tag &lt;track&gt;</li>
+
                         <li onclick="loadTag('iframe')">Tag &lt;iframe&gt;</li>
+                        <li onclick="loadTag('embed')">Tag &lt;embed&gt;</li>
+                        <li onclick="loadTag('object')">Tag &lt;object&gt;</li>
+                        <li onclick="loadTag('param')">Tag &lt;param&gt;</li>
+
+                        <li onclick="loadTag('canvas')">Tag &lt;canvas&gt;</li>
+                        <li onclick="loadTag('svg')">Tag &lt;svg&gt;</li>
                     </ul>
                 </details>
 
+                <!-- LISTAS -->
                 <details>
                     <summary>📋 Listas</summary>
                     <ul>
                         <li onclick="loadTag('ul')">Tag &lt;ul&gt;</li>
                         <li onclick="loadTag('ol')">Tag &lt;ol&gt;</li>
                         <li onclick="loadTag('li')">Tag &lt;li&gt;</li>
+
                         <li onclick="loadTag('dl')">Tag &lt;dl&gt;</li>
+                        <li onclick="loadTag('dt')">Tag &lt;dt&gt;</li>
+                        <li onclick="loadTag('dd')">Tag &lt;dd&gt;</li>
+
+                        <li onclick="loadTag('menu')">Tag &lt;menu&gt;</li>
                     </ul>
                 </details>
 
+                <!-- TABELAS -->
                 <details>
                     <summary>📊 Tabelas</summary>
                     <ul>
                         <li onclick="loadTag('table')">Tag &lt;table&gt;</li>
+                        <li onclick="loadTag('caption')">Tag &lt;caption&gt;</li>
+                        <li onclick="loadTag('thead')">Tag &lt;thead&gt;</li>
+                        <li onclick="loadTag('tbody')">Tag &lt;tbody&gt;</li>
+                        <li onclick="loadTag('tfoot')">Tag &lt;tfoot&gt;</li>
+
                         <li onclick="loadTag('tr')">Tag &lt;tr&gt;</li>
                         <li onclick="loadTag('th')">Tag &lt;th&gt;</li>
                         <li onclick="loadTag('td')">Tag &lt;td&gt;</li>
+
+                        <li onclick="loadTag('colgroup')">Tag &lt;colgroup&gt;</li>
+                        <li onclick="loadTag('col')">Tag &lt;col&gt;</li>
                     </ul>
                 </details>
 
+                <!-- FORMULÁRIOS -->
                 <details>
                     <summary>📨 Formulários</summary>
                     <ul>
@@ -113,6 +184,35 @@
                         <li onclick="loadTag('textarea')">Tag &lt;textarea&gt;</li>
                         <li onclick="loadTag('button')">Tag &lt;button&gt;</li>
                         <li onclick="loadTag('select')">Tag &lt;select&gt;</li>
+
+                        <li onclick="loadTag('option')">Tag &lt;option&gt;</li>
+                        <li onclick="loadTag('optgroup')">Tag &lt;optgroup&gt;</li>
+                        <li onclick="loadTag('datalist')">Tag &lt;datalist&gt;</li>
+                        <li onclick="loadTag('output')">Tag &lt;output&gt;</li>
+                        <li onclick="loadTag('fieldset')">Tag &lt;fieldset&gt;</li>
+                        <li onclick="loadTag('legend')">Tag &lt;legend&gt;</li>
+                        <li onclick="loadTag('progress')">Tag &lt;progress&gt;</li>
+                        <li onclick="loadTag('meter')">Tag &lt;meter&gt;</li>
+                    </ul>
+                </details>
+
+                <!-- INTERATIVOS / SEMÂNTICA EXTRA -->
+                <details>
+                    <summary>🧩 Interativos e Semântica</summary>
+                    <ul>
+                        <li onclick="loadTag('details')">Tag &lt;details&gt;</li>
+                        <li onclick="loadTag('summary')">Tag &lt;summary&gt;</li>
+                        <li onclick="loadTag('dialog')">Tag &lt;dialog&gt;</li>
+
+                        <li onclick="loadTag('figure')">Tag &lt;figure&gt;</li>
+                        <li onclick="loadTag('figcaption')">Tag &lt;figcaption&gt;</li>
+                        <li onclick="loadTag('address')">Tag &lt;address&gt;</li>
+
+                        <li onclick="loadTag('ruby')">Tag &lt;ruby&gt;</li>
+                        <li onclick="loadTag('rt')">Tag &lt;rt&gt;</li>
+                        <li onclick="loadTag('rp')">Tag &lt;rp&gt;</li>
+
+                        <li onclick="loadTag('template')">Tag &lt;template&gt;</li>
                     </ul>
                 </details>
 
@@ -134,7 +234,8 @@
                     </div>
 
                     <p class="hint">
-                        Dica: tente <code>imagem</code>, <code>link</code>, <code>título</code>, <code>seção</code>
+                        Dica: tente <code>imagem</code>, <code>link</code>, <code>título</code>, <code>seção</code>,
+                        <code>meta</code>, <code>tabela</code>, <code>formulário</code>
                     </p>
                 </div>
 
@@ -187,7 +288,7 @@
         </div>
     </footer>
 
-    <!-- MODAL: Sobre mim (ADICIONADO) -->
+    <!-- MODAL: Sobre mim -->
     <div class="modal-overlay" id="about-modal" aria-hidden="true">
         <div class="modal" role="dialog" aria-modal="true" aria-labelledby="about-title">
             <button class="modal-close" id="close-about" type="button" aria-label="Fechar sobre mim">✕</button>
@@ -203,7 +304,7 @@
 
                 <p>Tenho base em <b>HTML</b>, <b>CSS</b> e <b>JavaScript</b> e estou constantemente evoluindo. Gosto de entender de verdade o
                     que estou estudando, testar, errar, ajustar e melhorar. Para mim, aprender não é só assistir aula
-                    é colocar a mão no código e construir algo <b>funcional</b>.</p>
+                    — é colocar a mão no código e construir algo <b>funcional</b>.</p>
 
                 <p>Esse site é parte do meu processo. Ele nasceu da ideia de <b>facilitar</b> a busca por tags HTML em
                     <b>português</b>, especialmente para quem ainda está começando e nem sempre lembra o nome técnico exato da
@@ -220,9 +321,8 @@
         </div>
     </div>
 
-
-
+    
 </body>
+<noscript>Ative o JavaScript para usar este site.</noscript>
 <script src="script.js"></script>
-
 </html>

@@ -1,19 +1,62 @@
 // ==============================
-// Sidebar toggle
+// Sidebar toggle + comportamento por breakpoint (desktop abre / mobile fecha)
+// + mede altura real do header (pra sidebar ficar perfeita no mobile)
 // ==============================
 const toggleBtn = document.getElementById("menu-toggle");
 const sidebar = document.getElementById("sidebar");
+const topbar = document.querySelector(".topbar");
+
+const MOBILE_BREAKPOINT = 900; // <= 900: começa fechado
 
 function setExpanded(isOpen) {
   if (!toggleBtn) return;
   toggleBtn.setAttribute("aria-expanded", String(isOpen));
 }
 
+function setSidebarOpen(isOpen) {
+  if (!sidebar) return;
+  sidebar.classList.toggle("closed", !isOpen);
+  setExpanded(isOpen);
+}
+
+function measureTopbarHeight() {
+  if (!topbar) return;
+  const h = Math.ceil(topbar.getBoundingClientRect().height);
+  document.documentElement.style.setProperty("--topbar-h", `${h}px`);
+}
+
+function applyInitialSidebarState() {
+  // Desktop: aberto | Tablet/Mobile: fechado
+  const isMobile = window.matchMedia(`(max-width: ${MOBILE_BREAKPOINT}px)`).matches;
+  setSidebarOpen(!isMobile);
+}
+
 if (toggleBtn && sidebar) {
-  setExpanded(!sidebar.classList.contains("closed"));
+  // mede altura logo no início
+  measureTopbarHeight();
+
+  // define estado inicial correto por tela
+  applyInitialSidebarState();
+
+  // toggle manual
   toggleBtn.addEventListener("click", () => {
-    sidebar.classList.toggle("closed");
-    setExpanded(!sidebar.classList.contains("closed"));
+    const willOpen = sidebar.classList.contains("closed");
+    setSidebarOpen(willOpen);
+    // se header mudou por quebrar linha, mede de novo
+    measureTopbarHeight();
+  });
+
+  // se redimensionar (ou girar o celular), ajusta:
+  // - altura do header
+  // - estado inicial (desktop aberto / mobile fechado)
+  window.addEventListener("resize", () => {
+    measureTopbarHeight();
+    applyInitialSidebarState();
+  });
+
+  // garante medida após fontes/layout assentarem
+  window.addEventListener("load", () => {
+    measureTopbarHeight();
   });
 }
 
@@ -472,6 +515,8 @@ const ALIAS_MAP = {
   "opção": "select",
   "lista suspensa": "select",
   "combobox": "select"
+
+
 };
 
 // ==============================
@@ -520,8 +565,582 @@ const TAGS = [
   { key: "input", title: "<input>", desc: "Campo de entrada. Não tem fechamento.", example: `<input type="text" placeholder="Digite aqui">`, keywords: ["input", "campo", "entrada", "digitar", "senha", "email", "caixa de texto"] },
   { key: "textarea", title: "<textarea>", desc: "Campo de texto grande (multilinha).", example: `<textarea placeholder="Escreva..."></textarea>`, keywords: ["textarea", "texto grande", "multilinha", "mensagem", "comentario", "comentário"] },
   { key: "button", title: "<button>", desc: "Botão clicável.", example: `<button type="button">Clique</button>`, keywords: ["button", "botao", "botão", "clicar", "acao", "ação"] },
-  { key: "select", title: "<select>", desc: "Caixa de seleção (dropdown).", example: `<select>\n  <option>Opção 1</option>\n  <option>Opção 2</option>\n</select>`, keywords: ["select", "selecao", "seleção", "dropdown", "opcao", "opção", "lista suspensa"] }
+  { key: "select", title: "<select>", desc: "Caixa de seleção (dropdown).", example: `<select>\n  <option>Opção 1</option>\n  <option>Opção 2</option>\n</select>`, keywords: ["select", "selecao", "seleção", "dropdown", "opcao", "opção", "lista suspensa"] },
+
+  // --- Head / Metadados ---
+  { key: "title", title: "<title>", desc: "Define o título do documento (aparece na aba do navegador). Fica dentro de <head>.", example: `<head>\n  <title>TagFlow</title>\n</head>`, keywords: ["title", "titulo", "título", "nome da aba", "aba do navegador", "tab title", "titulo da pagina", "título da página"] },
+  { key: "meta", title: "<meta>", desc: "Define metadados (charset, viewport, description, SEO). Tag vazia (não fecha).", example: `<meta charset="UTF-8">\n<meta name="viewport" content="width=device-width, initial-scale=1.0">\n<meta name="description" content="Descrição do site">`, keywords: ["meta", "metadados", "charset", "viewport", "description", "descricao", "descrição", "seo", "open graph", "og", "twitter card"] },
+  { key: "link", title: "<link>", desc: "Conecta recursos externos (CSS, ícone, fontes). Tag vazia (não fecha).", example: `<link rel="stylesheet" href="style.css">\n<link rel="icon" href="favicon.png">`, keywords: ["link", "link tag", "stylesheet", "css externo", "importar css", "favicon", "icone", "ícone", "fonte", "fonts", "preload", "prefetch"] },
+  { key: "style", title: "<style>", desc: "Insere CSS dentro do HTML (CSS interno).", example: `<style>\n  body { font-family: Arial; }\n</style>`, keywords: ["style", "css interno", "estilo", "estilos", "folha de estilo", "css no html"] },
+  {
+    key: "script",
+    title: "<script>",
+    desc: "Carrega ou escreve JavaScript (interno ou externo).",
+    example: `<script src="script.js"></script>\n<script>\n  console.log("Olá");\n</script>`,
+    keywords: ["script", "javascript", "js", "carregar js", "arquivo js", "codigo js", "código js", "script externo", "script interno"]
+  },
+  {
+    key: "noscript",
+    title: "<noscript>",
+    desc: "Mostra conteúdo alternativo se o JavaScript estiver desativado no navegador.",
+    example: `<noscript>Ative o JavaScript para usar este site.</noscript>`,
+    keywords: ["noscript", "sem javascript", "js desativado", "fallback", "mensagem sem js"]
+  },
+  {
+    key: "base",
+    title: "<base>",
+    desc: "Define a URL base e o target padrão para links na página. Tag vazia (não fecha).",
+    example: `<head>\n  <base href="https://exemplo.com/" target="_blank">\n</head>`,
+    keywords: ["base", "url base", "base href", "target padrao", "target padrão", "links relativos"]
+  },
+
+  // --- Layout / Agrupamento ---
+  {
+    key: "div",
+    title: "<div>",
+    desc: "Container genérico (sem semântica). Muito usado para agrupar elementos e aplicar CSS.",
+    example: `<div class="card">\n  <h2>Título</h2>\n  <p>Conteúdo...</p>\n</div>`,
+    keywords: ["div", "container", "bloco", "caixa", "wrapper", "agrupador", "agrupamento"]
+  },
+
+  // --- Texto / Semântica inline ---
+  {
+    key: "small",
+    title: "<small>",
+    desc: "Texto secundário/menor (ex: observações, direitos autorais).",
+    example: `<p>Preço: R$ 10 <small>(promoção limitada)</small></p>`,
+    keywords: ["small", "texto pequeno", "observacao", "observação", "nota", "copyright"]
+  },
+  {
+    key: "mark",
+    title: "<mark>",
+    desc: "Marca/destaca um trecho como relevância (tipo marca-texto).",
+    example: `<p>Resultado: <mark>HTML</mark> encontrado</p>`,
+    keywords: ["mark", "destaque", "marcar", "marca texto", "highlight", "realcar", "realçar"]
+  },
+  {
+    key: "del",
+    title: "<del>",
+    desc: "Texto removido (conteúdo deletado).",
+    example: `<p><del>R$ 100</del> R$ 80</p>`,
+    keywords: ["del", "deletado", "removido", "riscado", "preco antigo", "preço antigo"]
+  },
+  {
+    key: "ins",
+    title: "<ins>",
+    desc: "Texto inserido (conteúdo adicionado).",
+    example: `<p>Agora com <ins>frete grátis</ins>!</p>`,
+    keywords: ["ins", "inserido", "adicionado", "novo texto", "inserted"]
+  },
+  {
+    key: "dfn",
+    title: "<dfn>",
+    desc: "Marca o termo que está sendo definido (definição).",
+    example: `<p><dfn>HTML</dfn> é uma linguagem de marcação.</p>`,
+    keywords: ["dfn", "definicao", "definição", "termo definido", "definition"]
+  },
+  {
+    key: "bdi",
+    title: "<bdi>",
+    desc: "Isola direção de texto (útil com idiomas/RTL) sem afetar o contexto.",
+    example: `<p>Usuário: <bdi>إريك</bdi></p>`,
+    keywords: ["bdi", "direcao de texto", "direção de texto", "rtl", "idioma", "isolamento"]
+  },
+  {
+    key: "bdo",
+    title: "<bdo>",
+    desc: "Sobrescreve a direção do texto (dir='rtl' ou 'ltr').",
+    example: `<p><bdo dir="rtl">Texto invertido</bdo></p>`,
+    keywords: ["bdo", "rtl", "ltr", "direcao", "direção", "texto invertido"]
+  },
+  {
+    key: "ruby",
+    title: "<ruby>",
+    desc: "Anotações de pronúncia/explicação (muito usado em japonês/chinês).",
+    example: `<ruby>漢 <rt>kan</rt></ruby>`,
+    keywords: ["ruby", "furigana", "rt", "pronuncia", "pronúncia", "anotacao", "anotação"]
+  },
+  {
+    key: "rt",
+    title: "<rt>",
+    desc: "Texto de anotação dentro de <ruby>.",
+    example: `<ruby>漢 <rt>kan</rt></ruby>`,
+    keywords: ["rt", "ruby texto", "anotacao ruby", "anotação ruby", "pronuncia ruby"]
+  },
+  {
+    key: "rp",
+    title: "<rp>",
+    desc: "Parênteses de fallback para navegadores que não suportam ruby.",
+    example: `<ruby>漢<rp>(</rp><rt>kan</rt><rp>)</rp></ruby>`,
+    keywords: ["rp", "ruby fallback", "parenteses ruby", "parênteses ruby"]
+  },
+
+  // --- Links / Navegação avançada ---
+  {
+    key: "area",
+    title: "<area>",
+    desc: "Define uma área clicável dentro de um <map> (image map). Tag vazia (não fecha).",
+    example: `<img src="mapa.png" usemap="#mapa">\n<map name="mapa">\n  <area shape="rect" coords="0,0,100,100" href="#topo" alt="Topo">\n</map>`,
+    keywords: ["area", "mapa clicavel", "mapa clicável", "imagem clicavel", "image map", "coordenadas", "coords"]
+  },
+  {
+    key: "map",
+    title: "<map>",
+    desc: "Cria um mapa de imagem para usar com <area>.",
+    example: `<map name="mapa">\n  <area shape="circle" coords="50,50,25" href="#x" alt="X">\n</map>`,
+    keywords: ["map", "image map", "mapa de imagem", "mapa clicavel", "mapa clicável"]
+  },
+
+  // --- Mídia / Conteúdo incorporado ---
+  {
+    key: "picture",
+    title: "<picture>",
+    desc: "Permite imagens responsivas usando <source> + <img>.",
+    example: `<picture>\n  <source srcset="img.webp" type="image/webp">\n  <img src="img.jpg" alt="Descrição">\n</picture>`,
+    keywords: ["picture", "imagem responsiva", "source", "srcset", "webp", "jpg", "art direction"]
+  },
+  {
+    key: "source",
+    title: "<source>",
+    desc: "Define arquivos alternativos para <picture>, <audio> ou <video>. Tag vazia (não fecha).",
+    example: `<video controls>\n  <source src="video.mp4" type="video/mp4">\n</video>`,
+    keywords: ["source", "fonte", "arquivo alternativo", "srcset", "type", "midia alternativa", "mídia alternativa"]
+  },
+  {
+    key: "track",
+    title: "<track>",
+    desc: "Legendas para <video>/<audio> (subtitles). Tag vazia (não fecha).",
+    example: `<video controls>\n  <source src="video.mp4" type="video/mp4">\n  <track kind="subtitles" src="legendas.vtt" srclang="pt" label="Português">\n</video>`,
+    keywords: ["track", "legenda", "subtitles", "caption", "closed captions", "vtt", "srclang"]
+  },
+  {
+    key: "object",
+    title: "<object>",
+    desc: "Incorpora um recurso externo (PDF, mídia) de forma genérica.",
+    example: `<object data="arquivo.pdf" type="application/pdf" width="600" height="400"></object>`,
+    keywords: ["object", "pdf", "incorporar pdf", "embed pdf", "conteudo externo", "conteúdo externo"]
+  },
+  {
+    key: "param",
+    title: "<param>",
+    desc: "Parâmetros para <object>. Tag vazia (não fecha).",
+    example: `<object data="video.mp4">\n  <param name="autoplay" value="true">\n</object>`,
+    keywords: ["param", "parametro", "parâmetro", "object param", "autoplay"]
+  },
+  {
+    key: "embed",
+    title: "<embed>",
+    desc: "Incorpora conteúdo externo. Tag vazia (não fecha).",
+    example: `<embed src="arquivo.pdf" type="application/pdf" width="600" height="400">`,
+    keywords: ["embed", "incorporar", "pdf embed", "conteudo incorporado", "conteúdo incorporado"]
+  },
+
+  // --- Interativos ---
+  {
+    key: "details",
+    title: "<details>",
+    desc: "Cria um bloco que abre/fecha (accordion nativo).",
+    example: `<details>\n  <summary>Ver mais</summary>\n  <p>Conteúdo...</p>\n</details>`,
+    keywords: ["details", "abrir e fechar", "accordion", "toggle", "detalhes", "colapsar", "expandir"]
+  },
+  {
+    key: "summary",
+    title: "<summary>",
+    desc: "Título clicável do <details>.",
+    example: `<details>\n  <summary>Clique para abrir</summary>\n  <p>Conteúdo...</p>\n</details>`,
+    keywords: ["summary", "titulo do details", "título do details", "cabecalho do details", "cabeçalho do details"]
+  },
+  {
+    key: "dialog",
+    title: "<dialog>",
+    desc: "Cria uma caixa de diálogo/modal nativa (pode usar showModal() via JS).",
+    example: `<dialog open>\n  <p>Olá!</p>\n  <form method="dialog">\n    <button>Fechar</button>\n  </form>\n</dialog>`,
+    keywords: ["dialog", "modal", "popup", "janela", "caixa de dialogo", "caixa de diálogo"]
+  },
+
+  // --- Canvas / SVG ---
+  {
+    key: "canvas",
+    title: "<canvas>",
+    desc: "Área de desenho via JavaScript (gráficos, jogos).",
+    example: `<canvas id="meuCanvas" width="300" height="150"></canvas>`,
+    keywords: ["canvas", "desenho", "grafico", "gráfico", "jogo", "2d", "webgl"]
+  },
+  {
+    key: "svg",
+    title: "<svg>",
+    desc: "Gráficos vetoriais (ícones, formas).",
+    example: `<svg width="120" height="120" xmlns="http://www.w3.org/2000/svg">\n  <circle cx="60" cy="60" r="50" />\n</svg>`,
+    keywords: ["svg", "vetor", "vetorial", "icone", "ícone", "grafico vetorial", "desenho vetorial"]
+  },
+
+  // --- Tabelas (completando) ---
+  {
+    key: "caption",
+    title: "<caption>",
+    desc: "Legenda/título de uma tabela.",
+    example: `<table>\n  <caption>Notas</caption>\n  <tr><th>Nome</th><th>Nota</th></tr>\n</table>`,
+    keywords: ["caption", "legenda da tabela", "titulo da tabela", "título da tabela", "nome da tabela"]
+  },
+  {
+    key: "thead",
+    title: "<thead>",
+    desc: "Agrupa o cabeçalho da tabela.",
+    example: `<table>\n  <thead>\n    <tr><th>Nome</th></tr>\n  </thead>\n</table>`,
+    keywords: ["thead", "cabecalho da tabela", "cabeçalho da tabela", "header da tabela"]
+  },
+  {
+    key: "tbody",
+    title: "<tbody>",
+    desc: "Agrupa o corpo principal da tabela.",
+    example: `<table>\n  <tbody>\n    <tr><td>Erick</td></tr>\n  </tbody>\n</table>`,
+    keywords: ["tbody", "corpo da tabela", "dados da tabela", "body da tabela"]
+  },
+  {
+    key: "tfoot",
+    title: "<tfoot>",
+    desc: "Agrupa o rodapé da tabela.",
+    example: `<table>\n  <tfoot>\n    <tr><td>Total</td></tr>\n  </tfoot>\n</table>`,
+    keywords: ["tfoot", "rodape da tabela", "rodapé da tabela", "footer da tabela", "total"]
+  },
+  {
+    key: "colgroup",
+    title: "<colgroup>",
+    desc: "Agrupa colunas para aplicar estilos.",
+    example: `<table>\n  <colgroup>\n    <col span="1">\n    <col span="1">\n  </colgroup>\n</table>`,
+    keywords: ["colgroup", "grupo de colunas", "colunas", "estilo por coluna"]
+  },
+  {
+    key: "col",
+    title: "<col>",
+    desc: "Define propriedades de coluna dentro de <colgroup>. Tag vazia (não fecha).",
+    example: `<colgroup>\n  <col span="1">\n  <col span="1">\n</colgroup>`,
+    keywords: ["col", "coluna", "colunas", "estilo de coluna", "largura da coluna"]
+  },
+
+  // --- Formulários (completando) ---
+  {
+    key: "option",
+    title: "<option>",
+    desc: "Opção dentro de <select>.",
+    example: `<select>\n  <option value="1">Opção 1</option>\n</select>`,
+    keywords: ["option", "opcao", "opção", "item do select", "item do dropdown"]
+  },
+  {
+    key: "optgroup",
+    title: "<optgroup>",
+    desc: "Agrupa opções dentro do <select>.",
+    example: `<select>\n  <optgroup label="Grupo 1">\n    <option>Opção</option>\n  </optgroup>\n</select>`,
+    keywords: ["optgroup", "grupo de opcoes", "grupo de opções", "grupo no select"]
+  },
+  {
+    key: "datalist",
+    title: "<datalist>",
+    desc: "Lista de sugestões para um <input> (autocomplete).",
+    example: `<input list="frutas">\n<datalist id="frutas">\n  <option value="Maçã">\n  <option value="Banana">\n</datalist>`,
+    keywords: ["datalist", "sugestoes", "sugestões", "autocomplete", "lista de sugestoes", "auto completar"]
+  },
+  {
+    key: "output",
+    title: "<output>",
+    desc: "Mostra o resultado de um cálculo (normalmente ligado a form).",
+    example: `<form oninput="saida.value = (parseInt(a.value||0) + parseInt(b.value||0))">\n  <input id="a" type="number"> +\n  <input id="b" type="number"> =\n  <output name="saida"></output>\n</form>`,
+    keywords: ["output", "resultado", "saida", "saída", "calculo", "cálculo", "retorno"]
+  },
+  {
+    key: "fieldset",
+    title: "<fieldset>",
+    desc: "Agrupa campos do formulário (com borda opcional).",
+    example: `<fieldset>\n  <legend>Dados</legend>\n  <label>Nome <input type="text"></label>\n</fieldset>`,
+    keywords: ["fieldset", "grupo de campos", "agrupar inputs", "form group", "grupo do formulario", "grupo do formulário"]
+  },
+  {
+    key: "legend",
+    title: "<legend>",
+    desc: "Título/legenda do <fieldset>.",
+    example: `<fieldset>\n  <legend>Informações</legend>\n</fieldset>`,
+    keywords: ["legend", "titulo do fieldset", "título do fieldset", "nome do grupo"]
+  },
+  {
+    key: "progress",
+    title: "<progress>",
+    desc: "Barra de progresso.",
+    example: `<progress value="70" max="100"></progress>`,
+    keywords: ["progress", "progresso", "barra de progresso", "loading", "carregando"]
+  },
+  {
+    key: "meter",
+    title: "<meter>",
+    desc: "Mede um valor dentro de um intervalo (ex: nível).",
+    example: `<meter value="0.6">60%</meter>`,
+    keywords: ["meter", "medidor", "nivel", "nível", "percentual", "indicador"]
+  },
+
+  // --- Outras tags úteis / comuns ---
+  {
+    key: "address",
+    title: "<address>",
+    desc: "Informações de contato do autor/organização (endereço, email etc).",
+    example: `<address>\n  Contato: <a href="mailto:email@exemplo.com">email@exemplo.com</a>\n</address>`,
+    keywords: ["address", "endereco", "endereço", "contato", "contact", "autor", "empresa"]
+  },
+  {
+    key: "figure",
+    title: "<figure>",
+    desc: "Agrupa mídia (imagem, gráfico) e legenda.",
+    example: `<figure>\n  <img src="foto.jpg" alt="Descrição">\n  <figcaption>Legenda da imagem</figcaption>\n</figure>`,
+    keywords: ["figure", "figura", "imagem com legenda", "mídia com legenda", "media caption"]
+  },
+  {
+    key: "figcaption",
+    title: "<figcaption>",
+    desc: "Legenda para um <figure>.",
+    example: `<figure>\n  <img src="foto.jpg" alt="Descrição">\n  <figcaption>Legenda</figcaption>\n</figure>`,
+    keywords: ["figcaption", "legenda", "caption", "legenda de imagem", "legenda do figure"]
+  },
+  {
+    key: "time",
+    title: "<time>",
+    desc: "Representa datas/horários (útil para SEO e acessibilidade).",
+    example: `<time datetime="2026-02-17">17/02/2026</time>`,
+    keywords: ["time", "data", "hora", "datetime", "calendario", "calendário", "horario", "horário"]
+  },
+  {
+    key: "data",
+    title: "<data>",
+    desc: "Associa um valor legível com um valor de máquina (value).",
+    example: `<data value="123">Produto 123</data>`,
+    keywords: ["data", "value", "dado", "valor", "machine readable", "valor interno"]
+  },
+  {
+    key: "kbd",
+    title: "<kbd>",
+    desc: "Indica entrada do teclado (atalhos).",
+    example: `<p>Pressione <kbd>Ctrl</kbd> + <kbd>S</kbd>.</p>`,
+    keywords: ["kbd", "teclado", "atalho", "shortcut", "ctrl", "ctrl s", "comando"]
+  },
+  {
+    key: "samp",
+    title: "<samp>",
+    desc: "Saída de um programa (texto de console).",
+    example: `<samp>Erro: arquivo não encontrado</samp>`,
+    keywords: ["samp", "saida", "saída", "console", "output", "terminal"]
+  },
+  {
+    key: "var",
+    title: "<var>",
+    desc: "Representa uma variável em contexto matemático/programação.",
+    example: `<p>O valor de <var>x</var> é 10.</p>`,
+    keywords: ["var", "variavel", "variável", "matematica", "matemática", "variavel no texto"]
+  },
+  {
+    key: "sub",
+    title: "<sub>",
+    desc: "Texto subscrito (abaixo da linha).",
+    example: `H<sub>2</sub>O`,
+    keywords: ["sub", "subscrito", "subscript", "embaixo", "abaixo"]
+  },
+  {
+    key: "sup",
+    title: "<sup>",
+    desc: "Texto sobrescrito (acima da linha).",
+    example: `2<sup>10</sup>`,
+    keywords: ["sup", "sobrescrito", "superscript", "emcima", "em cima", "acima"]
+  },
+  {
+    key: "wbr",
+    title: "<wbr>",
+    desc: "Sugere um ponto onde a palavra pode quebrar linha. Tag vazia (não fecha).",
+    example: `supercalifragilistic<wbr>expialidocious`,
+    keywords: ["wbr", "quebra de palavra", "word break", "quebra de linha em palavra", "ponto de quebra"]
+  },
+
+  // --- Tags obsoletas/depreciadas (pra ficar “todas mesmo”) ---
+  {
+    key: "center",
+    title: "<center>",
+    desc: "OBSOLETA: centralizava conteúdo. Hoje use CSS (text-align, flex, grid).",
+    example: `<!-- OBSOLETA -->\n<center>Texto centralizado</center>`,
+    keywords: ["center", "centralizar", "tag center", "obsoleta", "depreciada", "deprecated"]
+  },
+  {
+    key: "font",
+    title: "<font>",
+    desc: "OBSOLETA: definia fonte/cor/tamanho. Hoje use CSS.",
+    example: `<!-- OBSOLETA -->\n<font color="red" size="5">Texto</font>`,
+    keywords: ["font", "cor no html", "tamanho fonte", "tag font", "obsoleta", "deprecated"]
+  },
+  {
+    key: "marquee",
+    title: "<marquee>",
+    desc: "OBSOLETA: texto rolando (efeito). Não use em projetos reais.",
+    example: `<!-- OBSOLETA -->\n<marquee>Texto rolando...</marquee>`,
+    keywords: ["marquee", "texto rolando", "efeito", "scroll text", "obsoleta"]
+  },
+  {
+    key: "frameset",
+    title: "<frameset>",
+    desc: "OBSOLETA: layout por frames. Hoje use CSS e iframes (quando necessário).",
+    example: `<!-- OBSOLETA -->\n<frameset cols="50%,50%">\n  <frame src="a.html">\n  <frame src="b.html">\n</frameset>`,
+    keywords: ["frameset", "frame layout", "frames", "obsoleta", "deprecated"]
+  },
+  {
+    key: "frame",
+    title: "<frame>",
+    desc: "OBSOLETA: usado dentro de <frameset>.",
+    example: `<!-- OBSOLETA -->\n<frame src="pagina.html">`,
+    keywords: ["frame", "frameset", "obsoleta", "deprecated"]
+  },
+  {
+    key: "big",
+    title: "<big>",
+    desc: "OBSOLETA: aumentava o texto. Hoje use CSS.",
+    example: `<!-- OBSOLETA -->\n<big>Texto maior</big>`,
+    keywords: ["big", "texto grande", "obsoleta", "deprecated"]
+  },
+  {
+    key: "tt",
+    title: "<tt>",
+    desc: "OBSOLETA: fonte monoespaçada. Hoje use CSS ou <code>.",
+    example: `<!-- OBSOLETA -->\n<tt>texto monoespaçado</tt>`,
+    keywords: ["tt", "monoespacado", "monoespaçado", "obsoleta", "deprecated"]
+  },
+  {
+    key: "strike",
+    title: "<strike>",
+    desc: "OBSOLETA: texto riscado. Hoje use <s> ou CSS.",
+    example: `<!-- OBSOLETA -->\n<strike>Texto riscado</strike>`,
+    keywords: ["strike", "riscado", "tachado", "obsoleta", "deprecated"]
+  }
 ];
+
+// ==============================
+// PATCH DE CONSISTÊNCIA (NÃO MUDA O RESTO)
+// - garante que b, i, u, s, abbr, cite, blockquote, template existam e funcionem
+// - corrige q caso esteja apontando errado (ex: mostrando marquee)
+// - remove duplicatas dessas keys (pra evitar colisão)
+// ==============================
+(function fixBrokenTags() {
+  if (!Array.isArray(TAGS)) return;
+
+  const MUST_KEYS = new Set(["b", "i", "u", "s", "abbr", "cite", "blockquote", "template", "q"]);
+
+  // 1) remove duplicatas APENAS dessas chaves (mantém a primeira ocorrência)
+  const seen = new Set();
+  for (let idx = TAGS.length - 1; idx >= 0; idx--) {
+    const k = TAGS[idx]?.key;
+    if (!k || !MUST_KEYS.has(k)) continue;
+
+    if (seen.has(k)) {
+      TAGS.splice(idx, 1);
+    } else {
+      seen.add(k);
+    }
+  }
+
+  // 2) garante que "q" esteja correto (se existir e estiver errado, substitui)
+  const qIndex = TAGS.findIndex(t => t && t.key === "q");
+  const correctQ = {
+    key: "q",
+    title: "<q>",
+    desc: "Citação curta dentro do texto (normalmente o navegador coloca aspas automaticamente).",
+    example: `<p>Ele disse: <q>isso é incrível</q>.</p>`,
+    keywords: ["q", "citacao", "citação", "citacao curta", "citação curta", "quote", "frase citada", "aspas", "quote inline"]
+  };
+
+  if (qIndex >= 0) {
+    // se a descrição tiver cara de marquee (ou não tiver nada a ver), troca
+    const qDesc = (TAGS[qIndex].desc || "").toLowerCase();
+    const qTitle = (TAGS[qIndex].title || "").toLowerCase();
+    const smellsWrong =
+      qTitle.includes("marquee") ||
+      qDesc.includes("marquee") ||
+      qDesc.includes("texto rolando") ||
+      qDesc.includes("rolando");
+
+    if (smellsWrong) TAGS[qIndex] = correctQ;
+  } else {
+    TAGS.push(correctQ);
+  }
+
+  // 3) adiciona/garante as 8 tags
+  const ensures = [
+    {
+      key: "b",
+      title: "<b>",
+      desc: "Deixa o texto em negrito APENAS visualmente (sem indicar importância). Para importância use <strong>.",
+      example: `<p>Isso é <b>negrito visual</b>.</p>`,
+      keywords: ["b", "negrito", "bold", "negrito visual", "destaque visual", "sem semantica", "sem semântica"]
+    },
+    {
+      key: "i",
+      title: "<i>",
+      desc: "Deixa o texto em itálico APENAS visualmente (sem indicar ênfase). Para ênfase use <em>.",
+      example: `<p>Isso é <i>itálico visual</i>.</p>`,
+      keywords: ["i", "italico", "itálico", "italico visual", "itálico visual", "sem semantica", "sem semântica"]
+    },
+    {
+      key: "u",
+      title: "<u>",
+      desc: "Sublinha o texto (visual). Use com cuidado, porque pode parecer link.",
+      example: `<p><u>Texto sublinhado</u></p>`,
+      keywords: ["u", "sublinhado", "underline", "linha embaixo", "texto sublinhado"]
+    },
+    {
+      key: "s",
+      title: "<s>",
+      desc: "Texto riscado (indica que não é mais válido/atual).",
+      example: `<p><s>R$ 100</s> R$ 80</p>`,
+      keywords: ["s", "riscado", "tachado", "strikethrough", "preco antigo", "preço antigo", "desatualizado"]
+    },
+    {
+      key: "abbr",
+      title: "<abbr>",
+      desc: "Marca uma abreviação/sigla com significado (tooltip no atributo title).",
+      example: `<p><abbr title="HyperText Markup Language">HTML</abbr></p>`,
+      keywords: ["abbr", "abreviacao", "abreviação", "sigla", "tooltip", "title", "abreviar"]
+    },
+    {
+      key: "cite",
+      title: "<cite>",
+      desc: "Marca o título de uma obra (livro, filme, artigo, música).",
+      example: `<p>Eu recomendo <cite>Clean Code</cite>.</p>`,
+      keywords: ["cite", "citacao", "citação", "referencia", "referência", "obra", "titulo de obra", "título de obra"]
+    },
+    {
+      key: "blockquote",
+      title: "<blockquote>",
+      desc: "Citação em bloco (trecho citado, geralmente mais longo).",
+      example: `<blockquote>\n  "Uma citação longa aqui."\n</blockquote>`,
+      keywords: ["blockquote", "citacao", "citação", "quote", "citar", "citacao longa", "citação longa"]
+    },
+    {
+      key: "template",
+      title: "<template>",
+      desc: "Guarda HTML “inativo” (não renderiza). Pode ser clonado via JavaScript para gerar conteúdo dinâmico.",
+      example: `<template id="card">\n  <div class="card">\n    <h3>Título</h3>\n    <p>Texto...</p>\n  </div>\n</template>`,
+      keywords: ["template", "modelo", "template html", "conteudo invisivel", "conteúdo invisível", "clonar", "clone", "content"]
+    }
+  ];
+
+  for (const obj of ensures) {
+    const idx = TAGS.findIndex(t => t && t.key === obj.key);
+    if (idx >= 0) {
+      // se existir mas estiver “vazio”/quebrado, substitui
+      const bad =
+        !TAGS[idx].title ||
+        !TAGS[idx].desc ||
+        !TAGS[idx].example ||
+        !Array.isArray(TAGS[idx].keywords) ||
+        TAGS[idx].keywords.length === 0;
+
+      if (bad) TAGS[idx] = obj;
+    } else {
+      TAGS.push(obj);
+    }
+  }
+})();
+
 
 // ==============================
 // Busca inteligente
