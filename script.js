@@ -515,8 +515,6 @@ const ALIAS_MAP = {
   "opção": "select",
   "lista suspensa": "select",
   "combobox": "select"
-
-
 };
 
 // ==============================
@@ -1015,9 +1013,6 @@ const TAGS = [
 ];
 
 // ==============================
-// PATCH DE CONSISTÊNCIA (NÃO MUDA O RESTO)
-// - garante que b, i, u, s, abbr, cite, blockquote, template existam e funcionem
-// - corrige q caso esteja apontando errado (ex: mostrando marquee)
 // - remove duplicatas dessas keys (pra evitar colisão)
 // ==============================
 (function fixBrokenTags() {
@@ -1038,7 +1033,6 @@ const TAGS = [
     }
   }
 
-  // 2) garante que "q" esteja correto (se existir e estiver errado, substitui)
   const qIndex = TAGS.findIndex(t => t && t.key === "q");
   const correctQ = {
     key: "q",
@@ -1049,7 +1043,6 @@ const TAGS = [
   };
 
   if (qIndex >= 0) {
-    // se a descrição tiver cara de marquee (ou não tiver nada a ver), troca
     const qDesc = (TAGS[qIndex].desc || "").toLowerCase();
     const qTitle = (TAGS[qIndex].title || "").toLowerCase();
     const smellsWrong =
@@ -1063,7 +1056,6 @@ const TAGS = [
     TAGS.push(correctQ);
   }
 
-  // 3) adiciona/garante as 8 tags
   const ensures = [
     {
       key: "b",
@@ -1126,7 +1118,7 @@ const TAGS = [
   for (const obj of ensures) {
     const idx = TAGS.findIndex(t => t && t.key === obj.key);
     if (idx >= 0) {
-      // se existir mas estiver “vazio”/quebrado, substitui
+
       const bad =
         !TAGS[idx].title ||
         !TAGS[idx].desc ||
@@ -1213,7 +1205,7 @@ function findTag(query) {
 }
 
 // ==============================
-// Render (usa seus IDs do HTML)
+// Render (usa IDs do HTML)
 // ==============================
 const titleEl = document.getElementById("result-title");
 const descEl = document.getElementById("result-desc");
@@ -1244,7 +1236,7 @@ function render(tag) {
 }
 
 // ==============================
-// MENU DO HTML (onclick="loadTag('...')")
+// MENU DO HTML
 // ==============================
 function loadTag(key) {
   const { tag } = findTag(key);
@@ -1280,7 +1272,7 @@ if (input) {
   });
 }
 // ==============================
-// Modal: Sobre mim (ADICIONADO)
+// Sobre mim (ADICIONADO)
 // ==============================
 const openAbout = document.getElementById("open-about");
 const aboutModal = document.getElementById("about-modal");
@@ -1307,7 +1299,6 @@ function closeModal() {
   aboutModal.setAttribute("aria-hidden", "true");
   document.body.classList.remove("modal-open");
 
-  // devolve foco pra onde estava
   if (lastFocus && typeof lastFocus.focus === "function") lastFocus.focus();
 }
 

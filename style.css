@@ -8,7 +8,7 @@
     --bg: #d9dde3;
     --text: #111827;
     --muted: #374151;
-
+    --topbar-h: 70px;
     --white: #ffffff;
     --blue: #2563EB;
 
@@ -176,12 +176,10 @@ body {
     user-select: none;
 }
 
-/* remove o triângulo default (Chrome) */
 .menu-content summary::-webkit-details-marker {
     display: none;
 }
 
-/* cria um “chevron” bonitinho */
 .menu-content summary::before {
     content: "▸";
     display: inline-block;
@@ -201,7 +199,6 @@ body {
     gap: 6px;
 }
 
-/* Se você estiver usando <li onclick="..."> */
 .menu-content li {
     padding: 8px 10px;
     border-radius: 10px;
@@ -217,7 +214,6 @@ body {
     transform: translateX(4px);
 }
 
-/* Se você estiver usando <button class="tag-item"> (caso queira manter também) */
 .tag-item {
     width: 100%;
     text-align: left;
@@ -364,12 +360,11 @@ code {
     overflow-x: auto;
     border: 1px solid rgba(255, 255, 255, 0.10);
 }
+
 /* =========================
    FIX: evitar overflow horizontal quando o exemplo é “largo”
    (ex: <img ...> com linha longa)
    ========================= */
-
-/* permite que itens dentro de grid/flex realmente encolham */
 .layout,
 .content,
 .content-center,
@@ -377,30 +372,30 @@ code {
 .result-card,
 .result-example,
 .code-box {
-  min-width: 0;
-  max-width: 100%;
+    min-width: 0;
+    max-width: 100%;
 }
 
-/* evita que qualquer coisa “empurre” o body pro lado */
-html, body {
-  overflow-x: hidden;
+html,
+body {
+    overflow-x: hidden;
 }
 
 /* garante que o bloco de código nunca estoure a largura */
 .code-box {
-  max-width: 100%;
-  overflow-x: auto;     /* mantém scroll horizontal dentro do bloco */
+    max-width: 100%;
+    overflow-x: auto;
 }
 
 /* em telas pequenas, quebra linhas MUITO longas pra não vazar */
 @media (max-width: 600px) {
-  .code-box code {
-    white-space: pre-wrap;       /* permite quebrar linha */
-    overflow-wrap: anywhere;     /* quebra até em “palavras” gigantes */
-    word-break: break-word;
-  }
+    .code-box code {
+        white-space: pre-wrap;
+        /* permite quebrar linha */
+        overflow-wrap: anywhere;
+        word-break: break-word;
+    }
 }
-
 
 .code-box code {
     font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
@@ -506,79 +501,77 @@ html, body {
 }
 
 /* =========================
-   MODAL (Sobre mim) - ADICIONADO
+          (Sobre mim)
    ========================= */
 .modal-overlay {
-  position: fixed;
-  inset: 0;
-  background: rgba(15, 23, 42, 0.55);
-  display: none;
-  align-items: center;
-  justify-content: center;
-  padding: 18px;
-  z-index: 80;
+    position: fixed;
+    inset: 0;
+    background: rgba(15, 23, 42, 0.55);
+    display: none;
+    align-items: center;
+    justify-content: center;
+    padding: 18px;
+    z-index: 80;
 }
 
 .modal-overlay.is-open {
-  display: flex;
+    display: flex;
 }
 
 .modal {
-  width: min(720px, 92vw);
-  max-height: min(80vh, 720px);
-  overflow: auto;
-  background: var(--white);
-  border: 1px solid rgba(37, 99, 235, 0.25);
-  border-radius: 16px;
-  padding: 22px 20px;
-  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.22);
-  position: relative;
+    width: min(720px, 92vw);
+    max-height: min(80vh, 720px);
+    overflow: auto;
+    background: var(--white);
+    border: 1px solid rgba(37, 99, 235, 0.25);
+    border-radius: 16px;
+    padding: 22px 20px;
+    box-shadow: 0 20px 60px rgba(0, 0, 0, 0.22);
+    position: relative;
 }
 
 .modal-title {
-  font-size: 22px;
-  font-weight: 900;
-  color: var(--text);
-  margin-bottom: 12px;
+    font-size: 22px;
+    font-weight: 900;
+    color: var(--text);
+    margin-bottom: 12px;
 }
 
 .modal-content p {
-  color: var(--muted);
-  line-height: 1.7;
-  margin-bottom: 12px;
-  font-size: 15px;
+    color: var(--muted);
+    line-height: 1.7;
+    margin-bottom: 12px;
+    font-size: 15px;
 }
 
 .modal-close {
-  position: absolute;
-  top: 12px;
-  right: 12px;
-  width: 40px;
-  height: 40px;
-  border-radius: 10px;
-  border: 1px solid rgba(17, 24, 39, 0.12);
-  background: var(--white);
-  cursor: pointer;
-  font-size: 18px;
-  display: grid;
-  place-items: center;
+    position: absolute;
+    top: 12px;
+    right: 12px;
+    width: 40px;
+    height: 40px;
+    border-radius: 10px;
+    border: 1px solid rgba(17, 24, 39, 0.12);
+    background: var(--white);
+    cursor: pointer;
+    font-size: 18px;
+    display: grid;
+    place-items: center;
 }
 
 .modal-close:hover {
-  border-color: rgba(37, 99, 235, 0.45);
-  color: var(--blue);
+    border-color: rgba(37, 99, 235, 0.45);
+    color: var(--blue);
 }
 
-/* trava o scroll do body quando o modal abre */
 body.modal-open {
-  overflow: hidden;
+    overflow: hidden;
 }
 
 /* =========================
    RESPONSIVO
    ========================= */
 
-/* Tablet / mobile: sidebar overlay */
 @media (max-width: 900px) {
     .layout {
         grid-template-columns: 1fr;
@@ -646,195 +639,211 @@ body.modal-open {
         width: 50px;
         height: 50px;
     }
+    .main-footer{
+        margin-top: 0;
+    }
 }
 
 /* =========================================
    CORRIGE CENTRALIZAÇÃO QUANDO A SIDEBAR FECHA
    ========================================= */
 @media (min-width: 901px) {
-  /*quando a sidebar estiver fechada, o grid não reserva os 300px */
-  .layout:has(.sidebar.closed) {
-    grid-template-columns: 0 1fr;
-    transition: 1s ease-in-out;
-  }
 
-  /*evita “linha” e padding sobrando na área da sidebar */
-  .layout:has(.sidebar.closed) .sidebar {
-    border-right: none;
-    padding: 0;
-  }
+    .layout:has(.sidebar.closed) {
+        grid-template-columns: 0 1fr;
+        transition: 1s ease-in-out;
+    }
+
+    .layout:has(.sidebar.closed) .sidebar {
+        border-right: none;
+        padding: 0;
+    }
 }
+
 /* =========================================================
-   RESPONSIVIDADE EXTRA (ADICIONAR NO FINAL)
-   - Não mexe no JS/HTML
+   RESPONSIVIDADE EXTRA
    - Melhora header, sidebar overlay, hero e modal no mobile/tablet
    ========================================================= */
 
 /* 1) Sidebar overlay mais “inteligente” no mobile/tablet */
 @media (max-width: 900px) {
-  .sidebar {
-    width: min(82vw, 320px);
-    position: fixed;
-    top: var(--topbar-h);
-    height: calc(100vh - var(--topbar-h));
-  }
+    .sidebar {
+        width: min(82vw, 320px);
+        position: fixed;
+        top: var(--topbar-h);
+        height: calc(100vh - var(--topbar-h));
+    }
 }
 
 /* 2) TOPBAR: evita esmagar links em telas menores
       - Faz a topbar quebrar linha e coloca os links abaixo
 */
 @media (max-width: 700px) {
-  .topbar {
-    height: auto;              /* deixa crescer */
-    flex-wrap: wrap;           /* permite quebrar */
-    gap: 10px;
-    padding: 10px 14px;
-  }
+    .topbar {
+        height: auto;
+        /* deixa crescer */
+        flex-wrap: wrap;
+        /* permite quebrar */
+        gap: 10px;
+        padding: 10px 14px;
+    }
 
-  .topbar-left {
-    flex: 1 1 auto;
-    min-width: 180px;
-  }
+    .topbar-left {
+        flex: 1 1 auto;
+        min-width: 180px;
+    }
 
-  .links-header {
-    order: 3;                  /* links vão pra “linha de baixo” */
-    width: 100%;
-    justify-content: center;
-    flex-wrap: wrap;           /* quebra em 2 linhas se precisar */
-    gap: 14px;
-    padding-bottom: 6px;
-  }
+    .links-header {
+        order: 3;
+        /* links vão pra “linha de baixo” */
+        width: 100%;
+        justify-content: center;
+        flex-wrap: wrap;
+        /* quebra em 2 linhas se precisar */
+        gap: 14px;
+        padding-bottom: 6px;
+    }
 
-  .links-header a {
-    font-size: 14px;
-  }
+    .links-header a {
+        font-size: 14px;
+    }
 
-  .hamburger {
-    order: 2;
-  }
+    .hamburger {
+        order: 2;
+    }
 
-  /* como a topbar agora pode ser maior que 70px,
+    /* como a topbar agora pode ser maior que 70px,
      a sidebar fixa precisa acompanhar isso */
-  .sidebar {
-    top: auto;
-    top: calc(0px + 0px); /* fallback neutro */
-  }
+    .sidebar {
+        top: auto;
+        top: calc(0px + 0px);
+    }
 
-  /* solução robusta: como a topbar é sticky, usar top: 0 e empurrar pela própria altura
-     sem JS é chato medir; então a gente garante que não “coma” conteúdo
+    /* solução robusta: como a topbar é sticky, usar top: 0 e empurrar pela própria altura
+     sem JS é chato medir; então eu garanto que não “coma” conteúdo
      deixando espaço no começo do conteúdo */
-  .content {
-    padding-top: 18px;
-  }
+    .content {
+        padding-top: 18px;
+    }
 }
 
 /* 3) Mobile: reduz mais ainda e limpa a área do logo */
 @media (max-width: 520px) {
-  .logo-text {
-    display: none; /* libera espaço */
-  }
+    .logo-text {
+        display: none;
+    }
 
-  .logo-header {
-    height: 34px;
-  }
+    .logo-header {
+        height: 34px;
+    }
 
-  .links-header {
-    gap: 10px;
-  }
+    .links-header {
+        gap: 10px;
+    }
 
-  .links-header a {
-    font-size: 13px;
-  }
+    .links-header a {
+        font-size: 13px;
+    }
 
-  .hamburger {
-    width: 40px;
-    height: 40px;
-    padding: 0 10px;
-  }
+    .hamburger {
+        width: 40px;
+        height: 40px;
+        padding: 0 10px;
+    }
 
-  /* Hero e input ficam mais “encaixados” */
-  .hero-title {
-    font-size: 34px;
-    letter-spacing: 1px;
-  }
+    /* Hero e input ficam mais “encaixados” */
+    .hero-title {
+        font-size: 34px;
+        letter-spacing: 1px;
+    }
 
-  .hero-subtitle {
-    font-size: 14px;
-    margin-bottom: 14px;
-  }
+    .hero-subtitle {
+        font-size: 14px;
+        margin-bottom: 14px;
+    }
 
-  .search-row {
-    flex-direction: column;
-    gap: 10px;
-  }
+    .search-row {
+        flex-direction: column;
+        gap: 10px;
+    }
 
-  .tag-input {
-    width: 100%;
-    height: 48px;
-    font-size: 15px;
-  }
+    .tag-input {
+        width: 100%;
+        height: 48px;
+        font-size: 15px;
+    }
 
-  .search-btn {
-    width: 48px;
-    height: 48px;
-    font-size: 20px;
-  }
+    .search-btn {
+        width: 48px;
+        height: 48px;
+        font-size: 20px;
+    }
 
-  .result-card {
-    padding: 18px;
-  }
+    .result-card {
+        padding: 18px;
+    }
 
-  .code-box {
-    padding: 12px 12px;
-  }
+    .code-box {
+        padding: 12px 12px;
+    }
 
-  .code-box code {
-    font-size: 13px;
-  }
+    .code-box code {
+        font-size: 13px;
+    }
 
-  /* Sidebar overlay mais confortável */
-  .sidebar {
-    width: min(86vw, 300px);
-  }
+    /* Sidebar overlay mais confortável */
+    .sidebar {
+        width: min(86vw, 300px);
+    }
 }
 
 /* 4) Mobile bem pequeno (tipo 360px / 375px) */
 @media (max-width: 380px) {
-  .hero-title {
-    font-size: 30px;
-  }
+    .hero-title {
+        font-size: 30px;
+    }
 
-  .links-header a {
-    font-size: 12px;
-  }
+    .links-header a {
+        font-size: 12px;
+    }
 
-  .result-title {
-    font-size: 18px;
-  }
+    .result-title {
+        font-size: 18px;
+    }
 
-  .modal {
-    padding: 18px 14px;
-  }
+    .modal {
+        padding: 18px 14px;
+    }
 
-  .modal-title {
-    font-size: 18px;
-  }
+    .modal-title {
+        font-size: 18px;
+    }
 
-  .modal-content p {
-    font-size: 14px;
-  }
+    .modal-content p {
+        font-size: 14px;
+    }
 }
 
 /* 5) Modal no mobile: garante boa rolagem e não “cola” na borda */
 @media (max-width: 600px) {
-  .modal {
-    width: min(720px, 94vw);
-    max-height: 82vh;
-  }
+    .modal {
+        width: min(720px, 94vw);
+        max-height: 82vh;
+    }
 
-  .modal-close {
-    width: 38px;
-    height: 38px;
-  }
+    .modal-close {
+        width: 38px;
+        height: 38px;
+    }
 }
 
+@media (min-width: 901px) {
+    body.sidebar-closed .layout {
+        grid-template-columns: 0 1fr;
+    }
+
+    body.sidebar-closed .sidebar {
+        border-right: none;
+        padding: 0;
+    }
+}
