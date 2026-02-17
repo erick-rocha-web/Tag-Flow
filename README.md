@@ -46,7 +46,7 @@ Além disso, o projeto faz parte da construção do meu portfólio como desenvol
 
 Você pode acessar o projeto online aqui:
 
-    🔗 (LINK DO GITHUB PAGES)
+    🔗 https://erick-rocha-web.github.io/Tag-Flow/
 
 📂 Repositório:
 
