@@ -52,7 +52,7 @@ Você pode acessar o projeto online aqui:
 
 Código disponível em:
 
-    🔗 (LINK DO REPOSITÓRIO)
+    🔗 https://github.com/erick-rocha-web/Tag-Flow
 
 📈 Próximas melhorias (ideias futuras):
 
