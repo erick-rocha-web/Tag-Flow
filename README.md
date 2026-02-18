@@ -68,5 +68,5 @@ Código disponível em:
 
 👨‍💻 Autor:
 
-Desenvolvido por Erick Roberto Araújo Rocha
+Desenvolvido por Erick Roberto Araújo Rocha <br>
 Estudante de programação focado em evolução constante e construção de projetos reais.
