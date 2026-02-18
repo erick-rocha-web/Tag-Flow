@@ -46,13 +46,13 @@ Além disso, o projeto faz parte da construção do meu portfólio como desenvol
 
 Você pode acessar o projeto online aqui:
 
-    🔗 <a>https://erick-rocha-web.github.io/Tag-Flow/</a>
+🔗 <a>https://erick-rocha-web.github.io/Tag-Flow/</a>
 
 📂 Repositório:
 
 Código disponível em:
 
-    🔗 <a>https://github.com/erick-rocha-web/Tag-Flow</a>
+🔗 <a>https://github.com/erick-rocha-web/Tag-Flow</a>
 
 📈 Próximas melhorias (ideias futuras):
 
