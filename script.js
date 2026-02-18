@@ -553,6 +553,8 @@ const TAGS = [
   { key: "ol", title: "<ol>", desc: "Lista ordenada (numerada).", example: `<ol>\n  <li>Passo 1</li>\n  <li>Passo 2</li>\n</ol>`, keywords: ["ol", "lista numerada", "lista ordenada", "numerada", "numeros", "números", "ordered", "sequencia", "sequência", "passos"] },
   { key: "li", title: "<li>", desc: "Item de uma lista (dentro de ul/ol).", example: `<li>Item</li>`, keywords: ["li", "item", "itens", "items", "item da lista"] },
   { key: "dl", title: "<dl>", desc: "Lista de definições (termo + descrição).", example: `<dl>\n  <dt>Termo</dt>\n  <dd>Definição</dd>\n</dl>`, keywords: ["dl", "glossario", "glossário", "definicao", "definição", "lista de definição"] },
+  {key: "dt", title: "<dt>", desc: "Define um termo dentro de uma lista de definições (<dl>).", example: `<dl> <dt>HTML</dt> <dd>Linguagem de marcação</dd> </dl>`, keywords: ["dt", "termo", "termo da lista", "termo da definicao", "termo da definição", "lista de definicao", "lista de definição", "glossario", "glossário"]},
+
   { key: "table", title: "<table>", desc: "Cria uma tabela.", example: `<table>\n  <tr><th>Nome</th></tr>\n  <tr><td>Erick</td></tr>\n</table>`, keywords: ["table", "tabela", "tabelas", "planilha", "grid"] },
   { key: "tr", title: "<tr>", desc: "Linha da tabela.", example: `<tr>\n  <td>...</td>\n</tr>`, keywords: ["tr", "linha da tabela", "row"] },
   { key: "th", title: "<th>", desc: "Célula de cabeçalho da tabela.", example: `<th>Título</th>`, keywords: ["th", "cabecalho da tabela", "cabeçalho da tabela", "titulo da coluna", "título da coluna"] },
