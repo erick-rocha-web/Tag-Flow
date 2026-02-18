@@ -1245,7 +1245,13 @@ function render(tag) {
 function loadTag(key) {
   const { tag } = findTag(key);
   render(tag);
+
+  // Se for mobile/tablet, fecha a sidebar após selecionar a tag
+  if (isMobileLayout() && sidebar && !sidebar.classList.contains("closed")) {
+    setSidebarOpen(false);
+  }
 }
+
 // deixa acessível no HTML inline
 window.loadTag = loadTag;
 
@@ -1322,5 +1328,29 @@ aboutModal?.addEventListener("click", (e) => {
 document.addEventListener("keydown", (e) => {
   if (e.key === "Escape" && aboutModal?.classList.contains("is-open")) {
     closeModal();
+  }
+});
+
+// ==============================
+// FECHAR SIDEBAR AO TOCAR FORA (mobile/tablet)
+// ==============================
+function isMobileLayout() {
+  return window.matchMedia(`(max-width: ${MOBILE_BREAKPOINT}px)`).matches;
+}
+
+document.addEventListener("pointerdown", (e) => {
+  if (!sidebar || !toggleBtn) return;
+
+  if (!isMobileLayout()) return;
+
+  const isOpen = !sidebar.classList.contains("closed");
+  if (!isOpen) return;
+
+  const clickedInsideSidebar = sidebar.contains(e.target);
+  const clickedToggle = toggleBtn.contains(e.target);
+
+  // Se tocou fora do menu e fora do botão hamburger => fecha
+  if (!clickedInsideSidebar && !clickedToggle) {
+    setSidebarOpen(false);
   }
 });
