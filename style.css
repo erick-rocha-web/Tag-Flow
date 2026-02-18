@@ -445,9 +445,11 @@ body {
     color: #374151;
 }
 
-.footer-author span {
+.footer-author a {
     color: var(--blue);
     font-weight: 800;
+    cursor: pointer;
+    text-decoration: none;
 }
 
 .footer-links {
