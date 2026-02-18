@@ -46,13 +46,13 @@ Além disso, o projeto faz parte da construção do meu portfólio como desenvol
 
 Você pode acessar o projeto online aqui:
 
-    🔗 https://erick-rocha-web.github.io/Tag-Flow/
+    🔗 <a>https://erick-rocha-web.github.io/Tag-Flow/</a>
 
 📂 Repositório:
 
 Código disponível em:
 
-    🔗 https://github.com/erick-rocha-web/Tag-Flow
+    🔗 <a>https://github.com/erick-rocha-web/Tag-Flow</a>
 
 📈 Próximas melhorias (ideias futuras):
 
@@ -68,5 +68,5 @@ Código disponível em:
 
 👨‍💻 Autor:
 
-Desenvolvido por Erick Roberto Araújo Rocha <br>
+Desenvolvido por, Erick Roberto Araújo Rocha <br>
 Estudante de programação focado em evolução constante e construção de projetos reais.
